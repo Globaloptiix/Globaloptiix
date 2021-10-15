@@ -1,0 +1,137 @@
+{{- range  .Values.svc }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .namespace }}
+  name: {{ .name }}
+  labels:
+    app: {{ .name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .name }}
+
+
+  replicas: {{ .replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .name }}
+  
+  
+    spec:
+      containers:
+      - name: client
+        image: {{ .docker_image }}
+        imagePullPolicy: IfNotPresent
+
+        ports:
+        - containerPort: {{ .port}}
+          name: xc-gateway-port
+
+        env: 
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+  labels:
+    app: {{ .name }}
+    service: {{ .name }}
+spec:
+  ports:
+  - name: http
+    port: {{ .port}}
+    targetPort: {{ .port}}
+  selector:
+    app: {{ .name }}
+
+---
+
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: "{{ .name }}-gateway"
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.class: "istio-gateway"
+  namespace: {{ .namespace }}
+  labels:
+    app: {{ .name }}
+  
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+     - "{{ .host}}"
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTP
+    hosts:
+     - "{{ .host}}"
+    tls:
+      httpsRedirect: false 
+
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+  labels:
+    app: {{ .name }}
+spec:
+  hosts:
+  - "{{ .host}}"
+  gateways:
+  - "{{ .name }}-gateway"
+  http:
+  - match:
+    - uri:
+        prefix:  {{ .apiPrefix}}
+    route:
+    - destination:
+        port:
+          number: {{ .port}}
+        host: {{ .name }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: "networkpolicy{{ .name }}"
+  namespace: {{ .namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ .name }}
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    -  namespaceSelector:
+        matchLabels:
+          namespace: {{ .ingresNamespace }}
+       podSelector:
+        matchLabels:
+          {{ toYaml .ingressAppLabels| nindent 12 }}
+
+{{- end }}

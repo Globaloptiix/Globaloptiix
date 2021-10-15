@@ -1,0 +1,22 @@
+svc:
+  - name: apigateway
+    namespace: applications
+    docker_image: docker.io/kennethreitz/httpbin
+    replicas: 1
+    port: 80
+    host : "qa.eks-base.nodevops.nl"
+    apiPrefix: "/status"
+    ingresNamespace: istio-system
+    ingressAppLabels: 
+      app: istio-ingressgateway
+      
+  - name: nginx
+    namespace: applications
+    docker_image: nginx
+    replicas: 1
+    port: 80
+    host : "nginx.eks-base.nodevops.nl"
+    apiPrefix: "/"
+    ingresNamespace: istio-system
+    ingressAppLabels: 
+      app: istio-ingressgateway
