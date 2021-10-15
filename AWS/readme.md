@@ -83,11 +83,11 @@ Visit in browser :
 
 For example: 
 
-    https://nginx.eks-base.nodevops.nl
+    https://nginx.test.globaloptiix.com
 
 ## 8. Check if HTTP Bin s available : 
 
-curl -I "https://qa.eks-base.nodevops.nl/status/200"
+curl -I "https://qa.test.globaloptiix.com/status/200"
 
 ### Clean Up
 
