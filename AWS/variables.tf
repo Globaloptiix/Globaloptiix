@@ -1,7 +1,7 @@
 # Mandatory
 # Chnage This
 variable "domain_hosted_zone" {
-  default = "Z00399653L448W3L6CXGI"
+  default = "Z0927600QEJRCNMHSQK7"
 }
 # Mandatory
 # Change This
