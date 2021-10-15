@@ -6,7 +6,7 @@ variable "domain_hosted_zone" {
 # Mandatory
 # Change This
 variable "domain_name" {
-  default = "eks-base.nodevops.nl"
+  default = "test.globalolptiix.com"
 }
 
 
