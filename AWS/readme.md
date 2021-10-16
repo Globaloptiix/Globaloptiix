@@ -83,11 +83,11 @@ Visit in browser :
 
 For example: 
 
-    https://nginx.test.globaloptiix.com
+    https://nginx.cloud-globaloptiix.com
 
 ## 8. Check if HTTP Bin s available : 
 
-curl -I "https://qa.test.globaloptiix.com/status/200"
+curl -I "https://qa.cloud-globaloptiix.com/status/200"
 
 ### Clean Up
 
