@@ -4,7 +4,7 @@ svc:
     docker_image: docker.io/kennethreitz/httpbin
     replicas: 1
     port: 80
-    host : "qa.test.globalolptiix.com"
+    host : "qa.cloud-globaloptiix.com"
     apiPrefix: "/status"
     ingresNamespace: istio-system
     ingressAppLabels: 
@@ -15,7 +15,7 @@ svc:
     docker_image: nginx
     replicas: 1
     port: 80
-    host : "test.globalolptiix.com"
+    host : "nginx.cloud-globaloptiix.com"
     apiPrefix: "/"
     ingresNamespace: istio-system
     ingressAppLabels: 

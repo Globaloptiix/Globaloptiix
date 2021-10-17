@@ -1,12 +1,12 @@
 # Mandatory
 # Chnage This
 variable "domain_hosted_zone" {
-  default = "Z0927600QEJRCNMHSQK7"
+  default = "Z04611911L2GP3PRGK0K0"
 }
 # Mandatory
 # Change This
 variable "domain_name" {
-  default = "test.globalolptiix.com"
+  default = "cloud-globaloptiix.com"
 }
 
 
@@ -19,8 +19,7 @@ variable "map_accounts" {
   type        = list(string)
 
   default = [
-    "777777777777",
-    "888888888888",
+    "807129202839"
   ]
 }
 
@@ -32,7 +31,7 @@ variable "map_roles" {
     groups   = list(string)
   }))
 
-  default = [
+   default = [
     {
       rolearn  = "arn:aws:iam::66666666666:role/role1"
       username = "role1"
@@ -51,13 +50,18 @@ variable "map_users" {
 
   default = [
     {
-      userarn  = "arn:aws:iam::66666666666:user/user1"
-      username = "user1"
+      userarn  = "arn:aws:iam::807129202839:user/tonystark"
+      username = "tonystark"
       groups   = ["system:masters"]
     },
     {
-      userarn  = "arn:aws:iam::66666666666:user/user2"
-      username = "user2"
+      userarn  = "arn:aws:iam::807129202839:user/tonystark-optiix"
+      username = "tonystark-optiix"
+      groups   = ["system:masters"]
+    },
+    {
+      userarn  = "arn:aws:iam::807129202839:user/terraform"
+      username = "terraform"
       groups   = ["system:masters"]
     },
   ]
